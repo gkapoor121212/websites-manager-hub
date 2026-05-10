@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+
+<div class="login-page">
+
+    <div class="login-left">
+        <div class="brand-content">
+
+            <span class="badge-brand">
+                Websites Manager Hub
+            </span>
+
+            <h1>
+                Manage all your websites from one dashboard.
+            </h1>
+
+            <p>
+                Monitor projects, organize domains, track hosting,
+                and centralize your website operations.
+            </p>
+
+        </div>
+    </div>
+
+    <div class="login-right">
+
+        <div class="login-card">
+
+            <div class="text-center mb-4">
+                <h2 class="fw-bold mb-2">Welcome back</h2>
+                <p class="text-muted">
+                    Sign in to continue
+                </p>
+            </div>
+
+            {% if error %}
+                <div class="alert alert-danger rounded-3">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+
+            <form method="post">
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Email address
+                    </label>
+
+                    <input
+                        type="email"
+                        value="{{ last_username }}"
+                        name="_username"
+                        class="form-control form-control-lg"
+                        placeholder="you@example.com"
+                        required
+                        autofocus
+                    >
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        name="_password"
+                        class="form-control form-control-lg"
+                        placeholder="••••••••"
+                        required
+                    >
+
+                </div>
+
+                <input
+                    type="hidden"
+                    name="_csrf_token"
+                    value="{{ csrf_token('authenticate') }}"
+                >
+
+                <button class="btn btn-primary btn-lg w-100 login-btn">
+                    Sign In
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
