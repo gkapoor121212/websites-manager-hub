@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ website.name }}{% endblock %}
+
+{% block body %}
+<div class="dashboard-page">
+
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">Websites Manager Hub</div>
+
+        <nav class="sidebar-nav">
+            <a href="{{ path('app_dashboard') }}">Websites</a>
+        </nav>
+
+        <a href="{{ path('app_logout') }}" class="logout-link">Logout</a>
+    </aside>
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-header dashboard-header-row">
+            <div>
+                <h1>{{ website.name }}</h1>
+                <p>{{ website.url }}</p>
+            </div>
+
+            <a href="{{ path('app_dashboard') }}" class="btn btn-light">
+                Back to Dashboard
+            </a>
+        </header>
+
+        <div class="website-detail-layout">
+
+            <section class="website-detail-card website-detail-hero">
+                <div class="website-preview large-preview">
+                    <span>{{ website.hostname }}</span>
+                </div>
+
+                <div class="website-detail-body">
+                    <h2>{{ website.name }}</h2>
+
+                    <a href="{{ website.url }}" target="_blank" rel="noopener noreferrer">
+                        {{ website.url }}
+                    </a>
+                </div>
+            </section>
+
+            <section class="website-detail-card">
+                <h2>Website Details</h2>
+
+                <dl class="website-meta-list">
+                    <div>
+                        <dt>Admin Login URL</dt>
+                        <dd>
+                            {% if website.adminLoginURL %}
+                                <a href="{{ website.adminLoginURL }}" target="_blank" rel="noopener noreferrer">
+                                    {{ website.adminLoginURL }}
+                                </a>
+                            {% else %}
+                                —
+                            {% endif %}
+                        </dd>
+                    </div>
+
+                    <div>
+                        <dt>Server</dt>
+                        <dd>{{ website.server ?: '—' }}</dd>
+                    </div>
+
+                    <div>
+                        <dt>HTTP Authentication</dt>
+                        <dd>{{ website.hasHttpAuth ? 'Enabled' : 'Not used' }}</dd>
+                    </div>
+
+                    <div>
+                        <dt>Created</dt>
+                        <dd>{{ website.created|date('d M Y, H:i') }}</dd>
+                    </div>
+
+                    <div>
+                        <dt>Updated</dt>
+                        <dd>{{ website.updated|date('d M Y, H:i') }}</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section class="website-detail-card full-width">
+                <h2>Notes</h2>
+
+                {% if website.notes %}
+                    <p class="website-notes">{{ website.notes|nl2br }}</p>
+                {% else %}
+                    <p class="text-muted">No notes added yet.</p>
+                {% endif %}
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+{% endblock %}

@@ -1,0 +1,181 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Website{% endblock %}
+
+{% block body %}
+<div class="dashboard-page">
+
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">Websites Manager Hub</div>
+
+        <nav class="sidebar-nav">
+            <a href="{{ path('app_dashboard') }}">Websites</a>
+        </nav>
+
+        <a href="{{ path('app_logout') }}" class="logout-link">Logout</a>
+    </aside>
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-header dashboard-header-row">
+            <div>
+                <h1>Add Website</h1>
+                <p>Add a website and store its management details.</p>
+            </div>
+
+            <a href="{{ path('app_dashboard') }}" class="btn btn-light">
+                Back to Dashboard
+            </a>
+        </header>
+
+        <div class="website-form-card">
+
+            {{ form_start(form, {
+                attr: {
+                    class: 'website-form'
+                }
+            }) }}
+
+                <section class="website-form-section">
+                    <div class="website-form-section-header">
+                        <span class="section-kicker">Website</span>
+                        <h2>Basic details</h2>
+                        <p>Name and public URL of the website.</p>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-field">
+                            {{ form_label(form.name) }}
+                            {{ form_widget(form.name, {
+                                attr: {
+                                    class: 'form-control form-control-lg',
+                                    placeholder: 'Example Website'
+                                }
+                            }) }}
+                            {{ form_errors(form.name) }}
+                        </div>
+
+                        <div class="form-field">
+                            {{ form_label(form.url) }}
+                            {{ form_widget(form.url, {
+                                attr: {
+                                    class: 'form-control form-control-lg',
+                                    placeholder: 'https://example.com'
+                                }
+                            }) }}
+                            {{ form_errors(form.url) }}
+                        </div>
+                    </div>
+                </section>
+
+                <section class="website-form-section">
+                    <div class="website-form-section-header">
+                        <span class="section-kicker">Access</span>
+                        <h2>Authentication</h2>
+                        <p>Use this only when the website is protected by HTTP basic auth.</p>
+                    </div>
+
+                    <div class="auth-toggle">
+                        {{ form_widget(form.hasHttpAuth, {
+                            attr: {
+                                class: 'form-check-input'
+                            }
+                        }) }}
+
+                        <div>
+                            {{ form_label(form.hasHttpAuth, null, {
+                                label_attr: {
+                                    class: 'form-check-label fw-semibold'
+                                }
+                            }) }}
+                            <p>Enable if the frontend requires username and password access.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-field">
+                            {{ form_label(form.httpAuthUsername) }}
+                            {{ form_widget(form.httpAuthUsername, {
+                                attr: {
+                                    class: 'form-control form-control-lg',
+                                    placeholder: 'Username'
+                                }
+                            }) }}
+                            {{ form_errors(form.httpAuthUsername) }}
+                        </div>
+
+                        <div class="form-field">
+                            {{ form_label(form.httpAuthPassword) }}
+                            {{ form_widget(form.httpAuthPassword, {
+                                attr: {
+                                    class: 'form-control form-control-lg',
+                                    placeholder: 'Password'
+                                }
+                            }) }}
+                            {{ form_errors(form.httpAuthPassword) }}
+                        </div>
+                    </div>
+                </section>
+
+                <section class="website-form-section">
+                    <div class="website-form-section-header">
+                        <span class="section-kicker">Management</span>
+                        <h2>Admin and server</h2>
+                        <p>Store where the website is managed and hosted.</p>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-field">
+                            {{ form_label(form.adminLoginUrl) }}
+                            {{ form_widget(form.adminLoginUrl, {
+                                attr: {
+                                    class: 'form-control form-control-lg',
+                                    placeholder: 'https://example.com/admin'
+                                }
+                            }) }}
+                            {{ form_errors(form.adminLoginUrl) }}
+                        </div>
+
+                        <div class="form-field">
+                            {{ form_label(form.server) }}
+                            {{ form_widget(form.server, {
+                                attr: {
+                                    class: 'form-control form-control-lg',
+                                    placeholder: 'Hetzner VPS, Cloudways, cPanel...'
+                                }
+                            }) }}
+                            {{ form_errors(form.server) }}
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        {{ form_label(form.notes) }}
+                        {{ form_widget(form.notes, {
+                            attr: {
+                                class: 'form-control',
+                                placeholder: 'Internal notes, project details, maintenance info...',
+                                rows: 6
+                            }
+                        }) }}
+                        {{ form_errors(form.notes) }}
+                    </div>
+                </section>
+
+                <div class="website-form-actions">
+                    <a href="{{ path('app_dashboard') }}" class="btn btn-light btn-lg">
+                        Cancel
+                    </a>
+
+                    <button class="btn btn-primary btn-lg">
+                        Save Website
+                    </button>
+                </div>
+
+            {{ form_end(form) }}
+
+        </div>
+
+    </main>
+
+</div>
+{% endblock %}
