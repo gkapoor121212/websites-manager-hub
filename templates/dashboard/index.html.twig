@@ -1,8 +1,55 @@
-{# templates/dashboard/index.html.twig #}
-
 {% extends 'base.html.twig' %}
 
+{% block title %}Dashboard{% endblock %}
+
 {% block body %}
-    <h1>Dashboard</h1>
-    <p>You are logged in.</p>
+<div class="dashboard-page">
+
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">
+            Websites Manager Hub
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="{{ path('app_dashboard') }}" class="active">Dashboard</a>
+            <a href="#">Websites</a>
+            <a href="#">Domains</a>
+            <a href="#">Hosting</a>
+            <a href="#">Settings</a>
+        </nav>
+
+        <a href="{{ path('app_logout') }}" class="logout-link">
+            Logout
+        </a>
+    </aside>
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-header">
+            <div>
+                <h1>Dashboard</h1>
+                <p>Welcome back, {{ app.user.userIdentifier }}</p>
+            </div>
+        </header>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <span>Total Websites</span>
+                <strong>0</strong>
+            </div>
+
+            <div class="stat-card">
+                <span>Domains</span>
+                <strong>0</strong>
+            </div>
+
+            <div class="stat-card">
+                <span>Hosting Plans</span>
+                <strong>0</strong>
+            </div>
+        </section>
+
+    </main>
+
+</div>
 {% endblock %}
