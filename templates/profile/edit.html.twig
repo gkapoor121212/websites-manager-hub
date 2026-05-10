@@ -1,52 +1,46 @@
-{% extends 'base.html.twig' %}
+{% extends 'dashboard/layout.html.twig' %}
+
+{% set active_nav = 'profile' %}
 
 {% block title %}My Profile{% endblock %}
 
-{% block body %}
-<div class="dashboard-page">
-    <aside class="dashboard-sidebar">
-        <div class="sidebar-brand">Websites Manager Hub</div>
+{% block dashboard_content %}
+<header class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+        <h1 class="text-3xl font-black tracking-tight text-slate-950">My Profile</h1>
+        <p class="mt-2 text-slate-500">Update your account details.</p>
+    </div>
 
-        <nav class="sidebar-nav">
-            <a href="{{ path('app_dashboard') }}">Websites</a>
+    <a href="{{ path('app_profile_password') }}"
+       class="rounded-2xl bg-white px-5 py-3 text-sm font-black text-slate-700 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50">
+        Change Password
+    </a>
+</header>
 
-            {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('app_user_index') }}">Users</a>
-            {% endif %}
+{{ form_start(form) }}
 
-            <a href="{{ path('app_profile_edit') }}" class="active">My Profile</a>
-        </nav>
+<section class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200">
+    <div class="border-b border-slate-200 p-8">
+        <p class="text-xs font-black uppercase tracking-widest text-blue-600">Profile</p>
+        <h2 class="mt-2 text-2xl font-black text-slate-950">Personal details</h2>
+    </div>
 
-        <a href="{{ path('app_logout') }}" class="logout-link">Logout</a>
-    </aside>
+    <div class="grid gap-6 p-8 md:grid-cols-2">
+        {% for field in [form.name, form.designation, form.email] %}
+            {{ form_row(field, {
+                row_attr: { class: 'space-y-2' },
+                label_attr: { class: 'text-sm font-bold text-slate-700' },
+                attr: { class: 'w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10' }
+            }) }}
+        {% endfor %}
+    </div>
 
-    <main class="dashboard-main">
-        <header class="dashboard-header dashboard-header-row">
-            <div>
-                <h1>My Profile</h1>
-                <p>Update your account details.</p>
-            </div>
+    <div class="flex justify-end bg-slate-50 p-8">
+        <button class="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-black text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700">
+            Save Profile
+        </button>
+    </div>
+</section>
 
-            <a href="{{ path('app_profile_password') }}" class="btn btn-light">
-                Change Password
-            </a>
-        </header>
-
-        <div class="website-form-card">
-            {{ form_start(form, { attr: { class: 'website-form' } }) }}
-                <section class="website-form-section">
-                    <div class="form-grid">
-                        {{ form_row(form.name) }}
-                        {{ form_row(form.designation) }}
-                        {{ form_row(form.email) }}
-                    </div>
-                </section>
-
-                <div class="website-form-actions">
-                    <button class="btn btn-primary btn-lg">Save Profile</button>
-                </div>
-            {{ form_end(form) }}
-        </div>
-    </main>
-</div>
+{{ form_end(form) }}
 {% endblock %}

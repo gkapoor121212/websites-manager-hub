@@ -5,10 +5,14 @@
     <title>{% block title %}Websites Manager Hub{% endblock %}</title>
 
     {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+    {% endblock %}
+
+    {% block javascripts %}
         {{ importmap('app') }}
     {% endblock %}
 </head>
-<body>
+<body class="bg-slate-100 text-slate-950 antialiased">
     {% block body %}{% endblock %}
 </body>
 </html>

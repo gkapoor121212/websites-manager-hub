@@ -1,67 +1,67 @@
-{% extends 'base.html.twig' %}
+{% extends 'dashboard/layout.html.twig' %}
 
-{% block title %}Dashboard{% endblock %}
+{% set active_nav = 'websites' %}
 
-{% block body %}
-<div class="dashboard-page">
+{% block title %}Websites{% endblock %}
 
-    <aside class="dashboard-sidebar">
-        <div class="sidebar-brand">Websites Manager Hub</div>
+{% block dashboard_content %}
+<header class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+        <h1 class="text-3xl font-black tracking-tight text-slate-950">
+            Websites
+        </h1>
+        <p class="mt-2 text-slate-500">
+            All websites added to the system.
+        </p>
+    </div>
 
-        <nav class="sidebar-nav">
-            <a href="{{ path('app_dashboard') }}" class="active">Websites</a>
-        </nav>
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('app_user_index') }}">Users</a>
-        {% endif %}
+    <a href="{{ path('app_website_new') }}"
+       class="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700">
+        Add Website
+    </a>
+</header>
 
-        <a href="{{ path('app_profile_edit') }}">My Profile</a>
+{% if websites is empty %}
+    <section class="rounded-3xl bg-white p-12 text-center shadow-sm ring-1 ring-slate-200">
+        <h2 class="text-2xl font-black text-slate-950">
+            No websites yet
+        </h2>
+        <p class="mt-2 text-slate-500">
+            Add your first website to start managing it.
+        </p>
+        <a href="{{ path('app_website_new') }}"
+           class="mt-6 inline-flex rounded-2xl bg-blue-600 px-5 py-3 text-sm font-black text-white hover:bg-blue-700">
+            Add Website
+        </a>
+    </section>
+{% else %}
+    <section class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+        {% for website in websites %}
+            <a href="{{ path('app_website_show', { id: website.id }) }}"
+               class="group overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl">
 
-        <a href="{{ path('app_logout') }}" class="logout-link">Logout</a>
-    </aside>
+                <div class="h-44 bg-gradient-to-br from-blue-100 to-indigo-100">
+                    {% if website.screenshotPath %}
+                        <img src="{{ asset(website.screenshotPath) }}"
+                             alt="{{ website.name }}"
+                             class="h-full w-full object-cover">
+                    {% else %}
+                        <div class="flex h-full items-center justify-center px-6 text-center font-black text-blue-900">
+                            {{ website.hostname }}
+                        </div>
+                    {% endif %}
+                </div>
 
-    <main class="dashboard-main">
-
-        <header class="dashboard-header dashboard-header-row">
-            <div>
-                <h1>Websites</h1>
-                <p>All websites added to the system.</p>
-            </div>
-
-            <a href="{{ path('app_website_new') }}" class="btn btn-primary">
-                Add Website
+                <div class="p-6">
+                    <h2 class="text-xl font-black text-slate-950 transition group-hover:text-blue-600">
+                        {{ website.name }}
+                    </h2>
+                    <p class="mt-2 break-all text-sm font-semibold text-slate-500">
+                        {{ website.url }}
+                    </p>
+                </div>
             </a>
-        </header>
-
-        {% if websites is empty %}
-            <div class="empty-state">
-                <h2>No websites yet</h2>
-                <p>Add your first website to start managing it.</p>
-                <a href="{{ path('app_website_new') }}" class="btn btn-primary">
-                    Add Website
-                </a>
-            </div>
-        {% else %}
-            <section class="website-grid">
-                {% for website in websites %}
-                    <a href="{{ path('app_website_show', { id: website.id }) }}" class="website-card">
-                    <div class="website-preview">
-                        {% if website.screenshotPath %}
-                            <img src="{{ asset(website.screenshotPath) }}" alt="{{ website.name }}">
-                        {% else %}
-                            <span>{{ website.hostname }}</span>
-                        {% endif %}
-                        </div>
-                        <div class="website-card-body">
-                            <h2>{{ website.name }}</h2>
-                            <p>{{ website.url }}</p>
-                        </div>
-                    </a>
-                {% endfor %}
-            </section>
-        {% endif %}
-
-    </main>
-
-</div>
+        {% endfor %}
+    </section>
+{% endif %}
 {% endblock %}

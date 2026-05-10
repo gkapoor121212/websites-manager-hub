@@ -1,65 +1,70 @@
-{% extends 'base.html.twig' %}
+{% extends 'dashboard/layout.html.twig' %}
+
+{% set active_nav = 'users' %}
 
 {% block title %}Users{% endblock %}
 
-{% block body %}
-<div class="dashboard-page">
-    <aside class="dashboard-sidebar">
-        <div class="sidebar-brand">Websites Manager Hub</div>
+{% block dashboard_content %}
+<header class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+        <h1 class="text-3xl font-black tracking-tight text-slate-950">
+            Users
+        </h1>
+        <p class="mt-2 text-slate-500">
+            Manage people who can access the dashboard.
+        </p>
+    </div>
 
-        <nav class="sidebar-nav">
-            <a href="{{ path('app_dashboard') }}">Websites</a>
-            <a href="{{ path('app_user_index') }}" class="active">Users</a>
-            <a href="{{ path('app_profile_edit') }}">My Profile</a>
-        </nav>
+    <a href="{{ path('app_user_new') }}"
+       class="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700">
+        Add User
+    </a>
+</header>
 
-        <a href="{{ path('app_logout') }}" class="logout-link">Logout</a>
-    </aside>
+<section class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200">
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-slate-200">
+            <thead class="bg-slate-50">
+                <tr>
+                    <th class="px-6 py-4 text-left text-xs font-black uppercase tracking-widest text-slate-500">Name</th>
+                    <th class="px-6 py-4 text-left text-xs font-black uppercase tracking-widest text-slate-500">Email</th>
+                    <th class="px-6 py-4 text-left text-xs font-black uppercase tracking-widest text-slate-500">Designation</th>
+                    <th class="px-6 py-4 text-left text-xs font-black uppercase tracking-widest text-slate-500">Roles</th>
+                    <th class="px-6 py-4"></th>
+                </tr>
+            </thead>
 
-    <main class="dashboard-main">
-        <header class="dashboard-header dashboard-header-row">
-            <div>
-                <h1>Users</h1>
-                <p>Manage people who can access the dashboard.</p>
-            </div>
-
-            <a href="{{ path('app_user_new') }}" class="btn btn-primary">
-                Add User
-            </a>
-        </header>
-
-        <div class="website-detail-card">
-            <table class="table align-middle">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Designation</th>
-                        <th>Roles</th>
-                        <th></th>
+            <tbody class="divide-y divide-slate-200">
+                {% for user in users %}
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-6 py-5 text-sm font-black text-slate-950">{{ user.name ?: '—' }}</td>
+                        <td class="px-6 py-5 text-sm font-semibold text-slate-600">{{ user.email }}</td>
+                        <td class="px-6 py-5 text-sm font-semibold text-slate-600">{{ user.designation ?: '—' }}</td>
+                        <td class="px-6 py-5">
+                            <div class="flex flex-wrap gap-2">
+                                {% for role in user.roles %}
+                                    <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">
+                                        {{ role }}
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        </td>
+                        <td class="px-6 py-5 text-right">
+                            <a href="{{ path('app_user_edit', { id: user.id }) }}"
+                               class="inline-flex rounded-xl bg-white px-4 py-2 text-xs font-black text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50">
+                                Edit
+                            </a>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for user in users %}
-                        <tr>
-                            <td>{{ user.name ?: '—' }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.designation ?: '—' }}</td>
-                            <td>{{ user.roles|join(', ') }}</td>
-                            <td class="text-end">
-                                <a href="{{ path('app_user_edit', { id: user.id }) }}" class="btn btn-light btn-sm">
-                                    Edit
-                                </a>
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="5">No users found.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </main>
-</div>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="px-6 py-12 text-center text-slate-500">
+                            No users found.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
 {% endblock %}

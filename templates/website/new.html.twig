@@ -1,181 +1,134 @@
-{% extends 'base.html.twig' %}
+{% extends 'dashboard/layout.html.twig' %}
+
+{% set active_nav = 'websites' %}
 
 {% block title %}Add Website{% endblock %}
 
-{% block body %}
-<div class="dashboard-page">
+{% block dashboard_content %}
+<header class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+        <h1 class="text-3xl font-black tracking-tight text-slate-950">
+            Add Website
+        </h1>
+        <p class="mt-2 text-slate-500">
+            Add a website and store its management details.
+        </p>
+    </div>
 
-    <aside class="dashboard-sidebar">
-        <div class="sidebar-brand">Websites Manager Hub</div>
+    <a href="{{ path('app_dashboard') }}"
+       class="inline-flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-black text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-slate-50">
+        Back
+    </a>
+</header>
 
-        <nav class="sidebar-nav">
-            <a href="{{ path('app_dashboard') }}">Websites</a>
-        </nav>
+{{ form_start(form) }}
 
-        <a href="{{ path('app_logout') }}" class="logout-link">Logout</a>
-    </aside>
+<div class="space-y-6">
 
-    <main class="dashboard-main">
-
-        <header class="dashboard-header dashboard-header-row">
-            <div>
-                <h1>Add Website</h1>
-                <p>Add a website and store its management details.</p>
-            </div>
-
-            <a href="{{ path('app_dashboard') }}" class="btn btn-light">
-                Back to Dashboard
-            </a>
-        </header>
-
-        <div class="website-form-card">
-
-            {{ form_start(form, {
-                attr: {
-                    class: 'website-form'
-                }
-            }) }}
-
-                <section class="website-form-section">
-                    <div class="website-form-section-header">
-                        <span class="section-kicker">Website</span>
-                        <h2>Basic details</h2>
-                        <p>Name and public URL of the website.</p>
-                    </div>
-
-                    <div class="form-grid">
-                        <div class="form-field">
-                            {{ form_label(form.name) }}
-                            {{ form_widget(form.name, {
-                                attr: {
-                                    class: 'form-control form-control-lg',
-                                    placeholder: 'Example Website'
-                                }
-                            }) }}
-                            {{ form_errors(form.name) }}
-                        </div>
-
-                        <div class="form-field">
-                            {{ form_label(form.url) }}
-                            {{ form_widget(form.url, {
-                                attr: {
-                                    class: 'form-control form-control-lg',
-                                    placeholder: 'https://example.com'
-                                }
-                            }) }}
-                            {{ form_errors(form.url) }}
-                        </div>
-                    </div>
-                </section>
-
-                <section class="website-form-section">
-                    <div class="website-form-section-header">
-                        <span class="section-kicker">Access</span>
-                        <h2>Authentication</h2>
-                        <p>Use this only when the website is protected by HTTP basic auth.</p>
-                    </div>
-
-                    <div class="auth-toggle">
-                        {{ form_widget(form.hasHttpAuth, {
-                            attr: {
-                                class: 'form-check-input'
-                            }
-                        }) }}
-
-                        <div>
-                            {{ form_label(form.hasHttpAuth, null, {
-                                label_attr: {
-                                    class: 'form-check-label fw-semibold'
-                                }
-                            }) }}
-                            <p>Enable if the frontend requires username and password access.</p>
-                        </div>
-                    </div>
-
-                    <div class="form-grid">
-                        <div class="form-field">
-                            {{ form_label(form.httpAuthUsername) }}
-                            {{ form_widget(form.httpAuthUsername, {
-                                attr: {
-                                    class: 'form-control form-control-lg',
-                                    placeholder: 'Username'
-                                }
-                            }) }}
-                            {{ form_errors(form.httpAuthUsername) }}
-                        </div>
-
-                        <div class="form-field">
-                            {{ form_label(form.httpAuthPassword) }}
-                            {{ form_widget(form.httpAuthPassword, {
-                                attr: {
-                                    class: 'form-control form-control-lg',
-                                    placeholder: 'Password'
-                                }
-                            }) }}
-                            {{ form_errors(form.httpAuthPassword) }}
-                        </div>
-                    </div>
-                </section>
-
-                <section class="website-form-section">
-                    <div class="website-form-section-header">
-                        <span class="section-kicker">Management</span>
-                        <h2>Admin and server</h2>
-                        <p>Store where the website is managed and hosted.</p>
-                    </div>
-
-                    <div class="form-grid">
-                        <div class="form-field">
-                            {{ form_label(form.adminLoginUrl) }}
-                            {{ form_widget(form.adminLoginUrl, {
-                                attr: {
-                                    class: 'form-control form-control-lg',
-                                    placeholder: 'https://example.com/admin'
-                                }
-                            }) }}
-                            {{ form_errors(form.adminLoginUrl) }}
-                        </div>
-
-                        <div class="form-field">
-                            {{ form_label(form.server) }}
-                            {{ form_widget(form.server, {
-                                attr: {
-                                    class: 'form-control form-control-lg',
-                                    placeholder: 'Hetzner VPS, Cloudways, cPanel...'
-                                }
-                            }) }}
-                            {{ form_errors(form.server) }}
-                        </div>
-                    </div>
-
-                    <div class="form-field">
-                        {{ form_label(form.notes) }}
-                        {{ form_widget(form.notes, {
-                            attr: {
-                                class: 'form-control',
-                                placeholder: 'Internal notes, project details, maintenance info...',
-                                rows: 6
-                            }
-                        }) }}
-                        {{ form_errors(form.notes) }}
-                    </div>
-                </section>
-
-                <div class="website-form-actions">
-                    <a href="{{ path('app_dashboard') }}" class="btn btn-light btn-lg">
-                        Cancel
-                    </a>
-
-                    <button class="btn btn-primary btn-lg">
-                        Save Website
-                    </button>
-                </div>
-
-            {{ form_end(form) }}
-
+    <section class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200">
+        <div class="border-b border-slate-200 p-8">
+            <p class="text-xs font-black uppercase tracking-widest text-blue-600">Website</p>
+            <h2 class="mt-2 text-2xl font-black text-slate-950">Basic details</h2>
+            <p class="mt-1 text-slate-500">Name and public URL of the website.</p>
         </div>
 
-    </main>
+        <div class="grid gap-6 p-8 md:grid-cols-2">
+            {{ form_row(form.name, {
+                row_attr: { class: 'space-y-2' },
+                label_attr: { class: 'text-sm font-bold text-slate-700' },
+                attr: { class: 'w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10', placeholder: 'Example Website' }
+            }) }}
+
+            {{ form_row(form.url, {
+                row_attr: { class: 'space-y-2' },
+                label_attr: { class: 'text-sm font-bold text-slate-700' },
+                attr: { class: 'w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10', placeholder: 'https://example.com' }
+            }) }}
+        </div>
+    </section>
+
+    <section class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200">
+        <div class="border-b border-slate-200 p-8">
+            <p class="text-xs font-black uppercase tracking-widest text-blue-600">Access</p>
+            <h2 class="mt-2 text-2xl font-black text-slate-950">Authentication</h2>
+            <p class="mt-1 text-slate-500">Use this only when the website is protected by HTTP basic auth.</p>
+        </div>
+
+        <div class="space-y-6 p-8">
+            <div class="flex gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                {{ form_widget(form.hasHttpAuth, {
+                    attr: { class: 'mt-1 h-5 w-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500' }
+                }) }}
+
+                <div>
+                    {{ form_label(form.hasHttpAuth, null, {
+                        label_attr: { class: 'font-bold text-slate-800' }
+                    }) }}
+                    <p class="mt-1 text-sm text-slate-500">
+                        Enable if the frontend requires username and password access.
+                    </p>
+                    {{ form_errors(form.hasHttpAuth) }}
+                </div>
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-2">
+                {{ form_row(form.httpAuthUsername, {
+                    row_attr: { class: 'space-y-2' },
+                    label_attr: { class: 'text-sm font-bold text-slate-700' },
+                    attr: { class: 'w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10', placeholder: 'Username' }
+                }) }}
+
+                {{ form_row(form.httpAuthPassword, {
+                    row_attr: { class: 'space-y-2' },
+                    label_attr: { class: 'text-sm font-bold text-slate-700' },
+                    attr: { class: 'w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10', placeholder: 'Password' }
+                }) }}
+            </div>
+        </div>
+    </section>
+
+    <section class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200">
+        <div class="border-b border-slate-200 p-8">
+            <p class="text-xs font-black uppercase tracking-widest text-blue-600">Management</p>
+            <h2 class="mt-2 text-2xl font-black text-slate-950">Admin and server</h2>
+            <p class="mt-1 text-slate-500">Store where the website is managed and hosted.</p>
+        </div>
+
+        <div class="space-y-6 p-8">
+            <div class="grid gap-6 md:grid-cols-2">
+                {{ form_row(form.adminLoginUrl, {
+                    row_attr: { class: 'space-y-2' },
+                    label_attr: { class: 'text-sm font-bold text-slate-700' },
+                    attr: { class: 'w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10', placeholder: 'https://example.com/admin' }
+                }) }}
+
+                {{ form_row(form.server, {
+                    row_attr: { class: 'space-y-2' },
+                    label_attr: { class: 'text-sm font-bold text-slate-700' },
+                    attr: { class: 'w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10', placeholder: 'Hetzner VPS, Cloudways, cPanel...' }
+                }) }}
+            </div>
+
+            {{ form_row(form.notes, {
+                row_attr: { class: 'space-y-2' },
+                label_attr: { class: 'text-sm font-bold text-slate-700' },
+                attr: { class: 'min-h-36 w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10', placeholder: 'Internal notes, project details, maintenance info...' }
+            }) }}
+        </div>
+    </section>
+
+    <div class="flex justify-end gap-3">
+        <a href="{{ path('app_dashboard') }}"
+           class="inline-flex rounded-2xl bg-white px-6 py-3 text-sm font-black text-slate-700 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50">
+            Cancel
+        </a>
+
+        <button class="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-black text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700">
+            Save Website
+        </button>
+    </div>
 
 </div>
+
+{{ form_end(form) }}
 {% endblock %}

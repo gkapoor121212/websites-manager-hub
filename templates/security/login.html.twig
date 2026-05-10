@@ -3,97 +3,70 @@
 {% block title %}Login{% endblock %}
 
 {% block body %}
+<div class="min-h-screen bg-slate-950 lg:grid lg:grid-cols-[1fr_520px]">
 
-<div class="login-page">
-
-    <div class="login-left">
-        <div class="brand-content">
-
-            <span class="badge-brand">
+    <section class="hidden items-center justify-center p-16 lg:flex">
+        <div class="max-w-2xl">
+            <div class="inline-flex rounded-full bg-white/10 px-4 py-2 text-sm font-black text-white ring-1 ring-white/10">
                 Websites Manager Hub
-            </span>
+            </div>
 
-            <h1>
-                Track website details, admin access, servers, notes, and project information in one place.
+            <h1 class="mt-8 text-6xl font-black leading-tight tracking-tight text-white">
+                Manage all your websites from one dashboard.
             </h1>
 
-            <p>
-                Monitor projects, organize domains, track hosting,
-                and centralize your website operations.
+            <p class="mt-6 text-xl leading-8 text-white/60">
+                Track website details, admin access, servers, notes, and project information in one place.
             </p>
-
         </div>
-    </div>
+    </section>
 
-    <div class="login-right">
-
-        <div class="login-card">
-
-            <div class="text-center mb-4">
-                <h2 class="fw-bold mb-2">Welcome back</h2>
-                <p class="text-muted">
+    <section class="flex min-h-screen items-center justify-center bg-white p-6 lg:rounded-l-[3rem]">
+        <div class="w-full max-w-md">
+            <div class="mb-8 text-center">
+                <h2 class="text-3xl font-black tracking-tight text-slate-950">
+                    Welcome back
+                </h2>
+                <p class="mt-2 text-slate-500">
                     Sign in to continue
                 </p>
             </div>
 
             {% if error %}
-                <div class="alert alert-danger rounded-3">
+                <div class="mb-6 rounded-2xl bg-red-50 p-4 text-sm font-bold text-red-700 ring-1 ring-red-200">
                     {{ error.messageKey|trans(error.messageData, 'security') }}
                 </div>
             {% endif %}
 
-            <form method="post">
-
-                <div class="mb-4">
-
-                    <label class="form-label">
-                        Email address
-                    </label>
-
-                    <input
-                        type="email"
-                        value="{{ last_username }}"
-                        name="_username"
-                        class="form-control form-control-lg"
-                        placeholder="you@example.com"
-                        required
-                        autofocus
-                    >
-
+            <form method="post" class="space-y-5">
+                <div class="space-y-2">
+                    <label class="text-sm font-bold text-slate-700">Email address</label>
+                    <input type="email"
+                           value="{{ last_username }}"
+                           name="_username"
+                           required
+                           autofocus
+                           placeholder="you@example.com"
+                           class="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10">
                 </div>
 
-                <div class="mb-4">
-
-                    <label class="form-label">
-                        Password
-                    </label>
-
-                    <input
-                        type="password"
-                        name="_password"
-                        class="form-control form-control-lg"
-                        placeholder="••••••••"
-                        required
-                    >
-
+                <div class="space-y-2">
+                    <label class="text-sm font-bold text-slate-700">Password</label>
+                    <input type="password"
+                           name="_password"
+                           required
+                           placeholder="••••••••"
+                           class="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10">
                 </div>
 
-                <input
-                    type="hidden"
-                    name="_csrf_token"
-                    value="{{ csrf_token('authenticate') }}"
-                >
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-                <button class="btn btn-primary btn-lg w-100 login-btn">
+                <button class="w-full rounded-2xl bg-blue-600 px-6 py-4 text-sm font-black text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700">
                     Sign In
                 </button>
-
             </form>
-
         </div>
-
-    </div>
+    </section>
 
 </div>
-
 {% endblock %}
