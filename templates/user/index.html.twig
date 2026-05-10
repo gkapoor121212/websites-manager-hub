@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+<div class="dashboard-page">
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">Websites Manager Hub</div>
+
+        <nav class="sidebar-nav">
+            <a href="{{ path('app_dashboard') }}">Websites</a>
+            <a href="{{ path('app_user_index') }}" class="active">Users</a>
+            <a href="{{ path('app_profile_edit') }}">My Profile</a>
+        </nav>
+
+        <a href="{{ path('app_logout') }}" class="logout-link">Logout</a>
+    </aside>
+
+    <main class="dashboard-main">
+        <header class="dashboard-header dashboard-header-row">
+            <div>
+                <h1>Users</h1>
+                <p>Manage people who can access the dashboard.</p>
+            </div>
+
+            <a href="{{ path('app_user_new') }}" class="btn btn-primary">
+                Add User
+            </a>
+        </header>
+
+        <div class="website-detail-card">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Designation</th>
+                        <th>Roles</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.name ?: '—' }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.designation ?: '—' }}</td>
+                            <td>{{ user.roles|join(', ') }}</td>
+                            <td class="text-end">
+                                <a href="{{ path('app_user_edit', { id: user.id }) }}" class="btn btn-light btn-sm">
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">No users found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+{% endblock %}

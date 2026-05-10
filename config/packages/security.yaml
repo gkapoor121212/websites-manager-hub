@@ -26,6 +26,9 @@ security:
         - { path: ^/$, roles: PUBLIC_ACCESS }
         - { path: ^/logout, roles: PUBLIC_ACCESS }
         - { path: ^/dashboard, roles: ROLE_USER }
+        - { path: ^/websites, roles: ROLE_USER }
+        - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/users, roles: ROLE_ADMIN }
 
 when@test:
     security:

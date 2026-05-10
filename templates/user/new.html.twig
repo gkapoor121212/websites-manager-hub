@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add User{% endblock %}
+
+{% block body %}
+<div class="dashboard-page">
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">Websites Manager Hub</div>
+
+        <nav class="sidebar-nav">
+            <a href="{{ path('app_dashboard') }}">Websites</a>
+            <a href="{{ path('app_user_index') }}" class="active">Users</a>
+            <a href="{{ path('app_profile_edit') }}">My Profile</a>
+        </nav>
+
+        <a href="{{ path('app_logout') }}" class="logout-link">Logout</a>
+    </aside>
+
+    <main class="dashboard-main">
+        <header class="dashboard-header dashboard-header-row">
+            <div>
+                <h1>Add User</h1>
+                <p>Create a new dashboard user.</p>
+            </div>
+
+            <a href="{{ path('app_user_index') }}" class="btn btn-light">Back</a>
+        </header>
+
+        <div class="website-form-card">
+            {{ form_start(form, { attr: { class: 'website-form' } }) }}
+                <section class="website-form-section">
+                    <div class="form-grid">
+                        {{ form_row(form.name) }}
+                        {{ form_row(form.designation) }}
+                        {{ form_row(form.email) }}
+                        {{ form_row(form.plainPassword) }}
+                    </div>
+
+                    {{ form_row(form.roles) }}
+                </section>
+
+                <div class="website-form-actions">
+                    <a href="{{ path('app_user_index') }}" class="btn btn-light btn-lg">Cancel</a>
+                    <button class="btn btn-primary btn-lg">Save User</button>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </main>
+</div>
+{% endblock %}
