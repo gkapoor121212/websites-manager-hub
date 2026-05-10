@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Website;
 use App\Form\WebsiteType;
 use App\Repository\WebsiteRepository;
+use App\Service\WebsiteScreenshotService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ class WebsiteController extends AbstractController
     }
 
     #[Route('/new', name: 'app_website_new')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, WebsiteScreenshotService $screenshotService): Response
     {
         $website = new Website();
 
@@ -34,6 +35,11 @@ class WebsiteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $website->setUpdated(new \DateTimeImmutable());
             $entityManager->persist($website);
+            $entityManager->flush();
+
+            $screenshotPath = $screenshotService->capture($website);
+            $website->setScreenshotPath($screenshotPath);
+            $website->setUpdated(new \DateTimeImmutable());
             $entityManager->flush();
 
             return $this->redirectToRoute('app_dashboard');

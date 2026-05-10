@@ -44,6 +44,9 @@ class Website
     #[ORM\Column]
     private ?\DateTimeImmutable $updated = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $screenshotPath = null;
+
     public function __construct()
     {
         $this->created = new \DateTimeImmutable();
@@ -177,5 +180,17 @@ class Website
     public function getHostname(): string
     {
         return parse_url($this->url, PHP_URL_HOST) ?? $this->url;
+    }
+
+    public function getScreenshotPath(): ?string
+    {
+        return $this->screenshotPath;
+    }
+
+    public function setScreenshotPath(?string $screenshotPath): static
+    {
+        $this->screenshotPath = $screenshotPath;
+
+        return $this;
     }
 }

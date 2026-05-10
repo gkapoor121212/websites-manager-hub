@@ -40,10 +40,13 @@
             <section class="website-grid">
                 {% for website in websites %}
                     <a href="{{ path('app_website_show', { id: website.id }) }}" class="website-card">
-                        <div class="website-preview">
+                    <div class="website-preview">
+                        {% if website.screenshotPath %}
+                            <img src="{{ asset(website.screenshotPath) }}" alt="{{ website.name }}">
+                        {% else %}
                             <span>{{ website.hostname }}</span>
+                        {% endif %}
                         </div>
-
                         <div class="website-card-body">
                             <h2>{{ website.name }}</h2>
                             <p>{{ website.url }}</p>
